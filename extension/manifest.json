@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Toxic Comment Shield",
+  "version": "1.0",
+  "description": "Automatically hides toxic comments on YouTube, Reddit, and Instagram",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://www.reddit.com/*",
+    "https://www.instagram.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://www.reddit.com/*",
+        "https://www.instagram.com/*"
+      ],
+      "js": [
+        "sites/youtube.js",
+        "sites/reddit.js",
+        "sites/instagram.js",
+        "content.js"
+      ]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

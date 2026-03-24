@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Toxic Comment Shield</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="header">
+    <span class="shield-icon">🛡️</span>
+    <h3>Toxic Comment Shield</h3>
+  </div>
+
+  <div class="card">
+    <!-- Enable / disable toggle -->
+    <label class="toggle-row">
+      <span class="toggle-label">Filter Comments</span>
+      <div class="switch">
+        <input type="checkbox" id="toggleFilter" />
+        <span class="slider"></span>
+      </div>
+    </label>
+    <p id="status" class="status"></p>
+  </div>
+
+  <div class="card">
+    <!-- Sensitivity slider -->
+    <div class="slider-header">
+      <span class="toggle-label">Filter Sensitivity</span>
+      <span id="thresholdValue" class="threshold-badge">0.70</span>
+    </div>
+    <input
+      type="range"
+      id="thresholdSlider"
+      min="0.30"
+      max="0.95"
+      step="0.05"
+      class="range-slider"
+    />
+    <div class="slider-labels">
+      <span>Strict</span>
+      <span>Lenient</span>
+    </div>
+    <p class="slider-hint" id="sensitivityHint"></p>
+  </div>
+
+  <div class="footer">Powered by ML · YouTube</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

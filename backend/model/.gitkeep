@@ -1,0 +1,4 @@
+# This directory will store trained ML model artifacts in future phases.
+# Example files that will be added here:
+# - toxicity_model.pkl   (trained scikit-learn classifier)
+# - vectorizer.pkl       (TF-IDF or similar text vectorizer)

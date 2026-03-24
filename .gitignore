@@ -1,0 +1,88 @@
+# ============================================================
+# OS & IDE artifacts
+# ============================================================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.code-workspace
+
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# ============================================================
+# Environment / secrets
+# ============================================================
+.env
+.env.*
+!.env.example
+*.secret
+secrets.json
+
+# ============================================================
+# Large ML model & dataset files
+# ============================================================
+# Trained model binaries
+backend/model/*.pkl
+backend/model/*.h5
+backend/model/*.pt
+backend/model/*.pth
+backend/model/*.onnx
+backend/model/*.bin
+
+# Threshold and other generated artifacts (keep .gitkeep)
+backend/model/threshold.txt
+
+# Datasets – large CSV / JSON files
+backend/model/*.csv
+backend/model/*.json
+backend/model/Gigsaw Dataset/
+backend/model/HateXplain_*
+
+# Synthetic data generated during training
+backend/model/synthetic_*.csv
+
+# ============================================================
+# Jupyter notebooks checkpoints
+# ============================================================
+.ipynb_checkpoints/
+
+# ============================================================
+# Logs & temporary files
+# ============================================================
+*.log
+*.tmp
+*.bak
+logs/
+tmp/
+
+# ============================================================
+# Node / browser-extension tooling (if added later)
+# ============================================================
+node_modules/
+npm-debug.log*
+yarn-error.log*
+dist/
