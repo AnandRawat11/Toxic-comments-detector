@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Toxic Comment Shield Model Performance — dataset size, F1 score, recall, latency, and full ML pipeline details.">
+  <title>Model Performance | Toxic Comment Shield</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-brand"><div class="brand-icon">🛡️</div>Toxic Shield</div>
+  <div class="nav-links">
+    <a href="../index.html">Home</a><a href="demo.html">Live Demo</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="model.html" class="active">Model</a>
+    <a href="extension.html">Extension</a><a href="about.html">About</a>
+  </div>
+  <a href="demo.html" class="btn nav-cta">Try Demo →</a>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <div class="hero-badge"><div class="dot"></div>Logistic Regression · TF-IDF · Calibrated Probabilities</div>
+    <h1>Model Performance</h1>
+    <p>A transparent look at the machine learning model powering Toxic Comment Shield — training data, feature engineering, and benchmark metrics.</p>
+  </div>
+</div>
+
+<!-- ── Key Metrics ─────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-label" style="text-align:center;margin-bottom:0.5rem;">Benchmark Results</div>
+    <h2 style="text-align:center;margin-bottom:2.5rem;">20% Held-out Test Split · 35,986 Samples</h2>
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-value">180k+</div>
+        <div class="metric-label">Training Samples</div>
+        <div style="margin-top:0.75rem;font-size:0.8rem;color:var(--on-surface-var);">Jigsaw (159k) + HateXplain (20k) + Synthetic (4.2k)</div>
+      </div>
+      <div class="metric-card" style="border-left-color:var(--tertiary);">
+        <div class="metric-value" style="color:var(--tertiary);">88.6%</div>
+        <div class="metric-label">Toxic Recall</div>
+        <div style="margin-top:0.75rem;font-size:0.8rem;color:var(--on-surface-var);">8.86 out of every 10 toxic comments caught</div>
+      </div>
+      <div class="metric-card" style="border-left-color:var(--primary);">
+        <div class="metric-value" style="color:var(--primary);">0.784</div>
+        <div class="metric-label">Toxic F1 Score</div>
+        <div style="margin-top:0.75rem;font-size:0.8rem;color:var(--on-surface-var);">Precision 0.71 · Recall 0.886</div>
+      </div>
+      <div class="metric-card" style="border-left-color:var(--tertiary);">
+        <div class="metric-value" style="color:var(--tertiary);">&lt;1ms</div>
+        <div class="metric-label">Inference Latency</div>
+        <div style="margin-top:0.75rem;font-size:0.8rem;color:var(--on-surface-var);">0.83ms per comment · 7× under 6ms target</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">92%</div>
+        <div class="metric-label">Overall Accuracy</div>
+        <div style="margin-top:0.75rem;font-size:0.8rem;color:var(--on-surface-var);">Non-toxic precision 0.98 · Recall 0.93</div>
+      </div>
+      <div class="metric-card" style="border-left-color:var(--secondary);">
+        <div class="metric-value" style="color:var(--secondary);">40,002</div>
+        <div class="metric-label">Feature Dimensions</div>
+        <div style="margin-top:0.75rem;font-size:0.8rem;color:var(--on-surface-var);">Word + Char TF-IDF + Profanity features</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── Classification Report Table ─────────────── -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="section-label">Classification Report</div>
+    <h2 style="margin-bottom:1.5rem;">Per-class Performance</h2>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <table class="results-table">
+        <thead>
+          <tr><th>Class</th><th>Precision</th><th>Recall</th><th>F1 Score</th><th>Support</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-safe">✅ Non-Toxic</span></td>
+            <td>0.98</td><td>0.93</td><td>0.95</td><td>~30,228</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-toxic">🚫 Toxic</span></td>
+            <td>0.71</td><td><strong>0.886</strong></td><td><strong>0.784</strong></td><td>~5,758</td>
+          </tr>
+          <tr style="background:rgba(173,198,255,0.03);">
+            <td style="font-weight:600;">Weighted Avg</td>
+            <td>0.93</td><td>0.92</td><td>0.92</td><td>35,986</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── Datasets ───────────────────────────────── -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="section-label">Training Data</div>
+    <h2 style="margin-bottom:2rem;">Datasets Used</h2>
+    <div class="feature-grid">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+          <h3>Jigsaw Toxic Comment</h3>
+          <span class="badge badge-info">Kaggle</span>
+        </div>
+        <p>159,571 Wikipedia comments labeled for toxic, severe_toxic, obscene, threat, insult, and identity_hate.</p>
+        <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <span class="tech-chip">159k rows</span>
+          <span class="tech-chip">16,225 toxic</span>
+          <span class="tech-chip">10.2% toxic rate</span>
+        </div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+          <h3>HateXplain</h3>
+          <span class="badge badge-info">GitHub</span>
+        </div>
+        <p>20,148 social media entries with 3-annotator majority voting. Covers hatespeech, offensive, and normal categories.</p>
+        <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <span class="tech-chip">20k entries</span>
+          <span class="tech-chip">61.2% toxic</span>
+          <span class="tech-chip">Multi-annotator</span>
+        </div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+          <h3>Synthetic Soft Insults</h3>
+          <span class="badge badge-safe">Custom</span>
+        </div>
+        <p>420 hand-curated indirect insults (condescending phrasing, sarcastic dismissals, leet-speak) oversampled 10× for 4,200 effective rows.</p>
+        <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <span class="tech-chip">4.2k effective</span>
+          <span class="tech-chip">10× oversampled</span>
+          <span class="tech-chip">Soft insults</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── Tech Stack ─────────────────────────────── -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="section-label">Technical Stack</div>
+    <h2 style="margin-bottom:1.5rem;">Technology Used</h2>
+    <div class="tech-chips" style="gap:0.75rem;">
+      <span class="tech-chip" style="font-size:0.875rem;padding:0.5rem 1.1rem;">Python 3.9+</span>
+      <span class="tech-chip" style="font-size:0.875rem;padding:0.5rem 1.1rem;">Scikit-learn</span>
+      <span class="tech-chip" style="font-size:0.875rem;padding:0.5rem 1.1rem;">LogisticRegression</span>
+      <span class="tech-chip" style="font-size:0.875rem;padding:0.5rem 1.1rem;">TF-IDF Vectorizer</span>
+      <span class="tech-chip" style="font-size:0.875rem;padding:0.5rem 1.1rem;">CalibratedLinearSVC</span>
+      <span class="tech-chip" style="font-size:0.875rem;padding:0.5rem 1.1rem;">FastAPI</span>
+      <span class="tech-chip" style="font-size:0.875rem;padding:0.5rem 1.1rem;">SciPy sparse.hstack</span>
+      <span class="tech-chip" style="font-size:0.875rem;padding:0.5rem 1.1rem;">Pandas</span>
+      <span class="tech-chip" style="font-size:0.875rem;padding:0.5rem 1.1rem;">Uvicorn</span>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div><div class="footer-brand">🛡️ Toxic Comment Shield</div><div class="footer-copy" style="margin-top:0.35rem;">© 2025 · Digital Guardian AI</div></div>
+      <div class="footer-links"><a href="../index.html">Home</a><a href="demo.html">Live Demo</a><a href="how-it-works.html">How It Works</a><a href="https://github.com/AnandRawat11/Toxic-comments-detector" target="_blank">GitHub ↗</a></div>
+      <div class="footer-copy">Built by Anand Rawat</div>
+    </div>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Toxic Shield Chrome Extension — automatically detect and hide toxic comments on YouTube, Reddit, and Instagram in real-time.">
+  <title>Chrome Extension | Toxic Comment Shield</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-brand"><div class="brand-icon">🛡️</div>Toxic Shield</div>
+  <div class="nav-links">
+    <a href="../index.html">Home</a><a href="demo.html">Live Demo</a>
+    <a href="how-it-works.html">How It Works</a><a href="model.html">Model</a>
+    <a href="extension.html" class="active">Extension</a><a href="about.html">About</a>
+  </div>
+  <a href="demo.html" class="btn nav-cta">Try Demo →</a>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <div class="hero-badge"><div class="dot"></div>Chrome Extension · Manifest V3 · MutationObserver</div>
+    <h1>Chrome Extension</h1>
+    <p>Shield your own browsing experience. The extension automatically detects and hides toxic comments across your favorite platforms in real-time — no page reload required.</p>
+    <div style="margin-top:2rem;">
+      <a href="https://github.com/AnandRawat11/Toxic-comments-detector" target="_blank" class="btn btn-primary btn-lg">
+        🔌 Get the Extension (via GitHub)
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ── Supported Platforms ─────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-label" style="text-align:center;margin-bottom:0.5rem;">Platform Support</div>
+    <h2 style="text-align:center;margin-bottom:2.5rem;">Works Where You Browse</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;" class="platform-grid">
+      <div class="card" style="text-align:center;padding:2.5rem 1.5rem;">
+        <div style="font-size:3rem;margin-bottom:1rem;">📺</div>
+        <h3>YouTube</h3>
+        <p style="margin-top:0.5rem;">Detects comments on video pages. Handles infinite scroll with MutationObserver.</p>
+        <div style="margin-top:1rem;"><span class="badge badge-safe">✅ Supported</span></div>
+      </div>
+      <div class="card" style="text-align:center;padding:2.5rem 1.5rem;">
+        <div style="font-size:3rem;margin-bottom:1rem;">🤖</div>
+        <h3>Reddit</h3>
+        <p style="margin-top:0.5rem;">Supports both new Reddit and legacy layout comment selectors.</p>
+        <div style="margin-top:1rem;"><span class="badge badge-safe">✅ Supported</span></div>
+      </div>
+      <div class="card" style="text-align:center;padding:2.5rem 1.5rem;">
+        <div style="font-size:3rem;margin-bottom:1rem;">📱</div>
+        <h3>Instagram</h3>
+        <p style="margin-top:0.5rem;">Detects comments on posts and reels as they load dynamically.</p>
+        <div style="margin-top:1rem;"><span class="badge badge-safe">✅ Supported</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── Key Features ───────────────────────────── -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="section-label">Core Features</div>
+    <h2 style="margin-bottom:2rem;">How the Extension Works</h2>
+    <div class="feature-grid">
+      <div class="card">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">👁️</div>
+        <h3>Real-time Detection</h3>
+        <p>MutationObserver watches the DOM and processes newly injected comments instantly — zero polling delay.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">⚡</div>
+        <h3>Batch Processing</h3>
+        <p>Comments are batched into groups of 20 and sent every 1.5s — 200 comments → 4 API calls instead of 200.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">💾</div>
+        <h3>Client-side Cache</h3>
+        <p>Previously scored comments are never re-sent to the API. Identical comments across sessions get instant results.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">🎚️</div>
+        <h3>Sensitivity Slider</h3>
+        <p>Users control the toxicity threshold via the popup UI (0–100). Preferences saved via chrome.storage.sync.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">👆</div>
+        <h3>Click-to-Reveal</h3>
+        <p>Blurred toxic comments can be revealed on-demand by clicking. Warning badge shows toxicity score.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">🔒</div>
+        <h3>Privacy First</h3>
+        <p>Comments are sent only to your local backend (127.0.0.1:8000). No data leaves your machine.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── Installation Guide ─────────────────────── -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;" class="two-col">
+      <div>
+        <div class="section-label">Installation</div>
+        <h2 style="margin-bottom:2rem;">Load the Extension</h2>
+        <div class="pipeline">
+          <div class="pipeline-step">
+            <div class="step-node">1</div>
+            <div class="step-content">
+              <h4>Clone the Repository</h4>
+              <div class="code-block" style="margin-top:0.5rem;font-size:0.78rem;">git clone https://github.com/AnandRawat11/<br>Toxic-comments-detector.git</div>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <div class="step-node">2</div>
+            <div class="step-content">
+              <h4>Open Chrome Extensions</h4>
+              <p>Navigate to <code style="font-size:0.8rem;background:var(--surface-high);padding:0.1rem 0.4rem;border-radius:0.35rem;">chrome://extensions/</code> and enable <strong>Developer mode</strong>.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <div class="step-node">3</div>
+            <div class="step-content">
+              <h4>Load Unpacked</h4>
+              <p>Click <strong>Load unpacked</strong> and select the <code style="font-size:0.8rem;background:var(--surface-high);padding:0.1rem 0.4rem;border-radius:0.35rem;">extension/</code> folder.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <div class="step-node">4</div>
+            <div class="step-content">
+              <h4>Start the Backend</h4>
+              <div class="code-block" style="margin-top:0.5rem;font-size:0.78rem;">cd backend<br>uvicorn main:app --reload --port 8000</div>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <div class="step-node">5</div>
+            <div class="step-content">
+              <h4>Browse & Shield</h4>
+              <p>Visit YouTube, Reddit, or Instagram. Toxic comments are automatically blurred with a warning badge.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Architecture card -->
+      <div>
+        <div class="section-label">Architecture</div>
+        <h2 style="margin-bottom:1.5rem;">Extension Structure</h2>
+        <div class="code-block">
+extension/<br>
+├── manifest.json         # MV3 manifest<br>
+├── content.js            # Core script<br>
+│   ├── MutationObserver  # DOM watcher<br>
+│   ├── toxicityCache     # Client cache<br>
+│   └── batchQueue        # 1.5s batching<br>
+├── popup.html            # Popup UI<br>
+├── popup.js              # Toggle + slider<br>
+├── styles.css<br>
+└── sites/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── youtube.js    # YT selectors<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── reddit.js     # Reddit selectors<br>
+&nbsp;&nbsp;&nbsp;&nbsp;└── instagram.js  # IG selectors
+        </div>
+
+        <div style="margin-top:2rem;">
+          <div class="section-label">Performance</div>
+          <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.75rem;">
+            <div style="background:var(--surface-cont);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;justify-content:space-between;">
+              <span style="font-size:0.875rem;">Batch interval</span>
+              <span class="badge badge-info">1.5 seconds</span>
+            </div>
+            <div style="background:var(--surface-cont);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;justify-content:space-between;">
+              <span style="font-size:0.875rem;">Max comments/batch</span>
+              <span class="badge badge-info">20</span>
+            </div>
+            <div style="background:var(--surface-cont);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;justify-content:space-between;">
+              <span style="font-size:0.875rem;">API latency</span>
+              <span class="badge badge-safe">&lt;1ms/comment</span>
+            </div>
+            <div style="background:var(--surface-cont);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;justify-content:space-between;">
+              <span style="font-size:0.875rem;">API calls for 200 comments</span>
+              <span class="badge badge-safe">4 (not 200)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div><div class="footer-brand">🛡️ Toxic Comment Shield</div><div class="footer-copy" style="margin-top:0.35rem;">© 2025 · Digital Guardian AI</div></div>
+      <div class="footer-links"><a href="../index.html">Home</a><a href="demo.html">Live Demo</a><a href="model.html">Model</a><a href="https://github.com/AnandRawat11/Toxic-comments-detector" target="_blank">GitHub ↗</a></div>
+      <div class="footer-copy">Built by Anand Rawat</div>
+    </div>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+<style>
+.platform-grid{grid-template-columns:repeat(3,1fr);}
+.two-col{grid-template-columns:1fr 1fr;}
+@media(max-width:900px){.platform-grid{grid-template-columns:1fr;}.two-col{grid-template-columns:1fr;}}
+</style>
+</body>
+</html>

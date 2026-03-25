@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Toxic Shield Live Demo — Test single comments or batch-analyze multiple comments and get real-time toxicity scores.">
+  <title>Live Demo | Toxic Comment Shield</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-brand">
+    <div class="brand-icon">🛡️</div>
+    Toxic Shield
+  </div>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="demo.html" class="active">Live Demo</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="model.html">Model</a>
+    <a href="extension.html">Extension</a>
+    <a href="about.html">About</a>
+  </div>
+  <a href="demo.html" class="btn nav-cta">Try Demo →</a>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- ── Page Header ────────────────────────────── -->
+<div class="page-header">
+  <div class="container">
+    <div class="hero-badge"><div class="dot"></div>Real-time AI Analysis</div>
+    <h1>Live Demo</h1>
+    <p>Experience the Digital Guardian AI. Analyze individual comments or process large batches with clinical precision.</p>
+  </div>
+</div>
+
+<!-- ── Demo Section ───────────────────────────── -->
+<section class="section">
+  <div class="container">
+
+    <!-- Tabs -->
+    <div style="margin-bottom:2rem;">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="single">Single Analyzer</button>
+        <button class="tab-btn" data-tab="batch">Batch Processing</button>
+      </div>
+    </div>
+
+    <!-- ── Single Tab ─────────────────────────── -->
+    <div id="tab-single" class="tab-pane active">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start;" class="demo-grid">
+
+        <!-- Input -->
+        <div class="card">
+          <h3 style="margin-bottom:1.25rem;">Analyze a Comment</h3>
+          <label style="display:block;font-size:0.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--on-surface-var);margin-bottom:0.5rem;">Comment Text</label>
+          <textarea id="single-input" rows="5" placeholder="Paste any comment here…"></textarea>
+
+          <div style="margin-top:1.25rem;">
+            <p style="font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--on-surface-var);margin-bottom:0.6rem;">Quick Examples</p>
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+              <button class="example-chip-sm" data-text="you are amazing">✅ "you are amazing"</button>
+              <button class="example-chip-sm" data-text="you idiot">⚠️ "you idiot"</button>
+              <button class="example-chip-sm" data-text="go kill yourself">🚫 "go kill yourself"</button>
+              <button class="example-chip-sm" data-text="great tutorial thanks!">✅ "great tutorial thanks!"</button>
+            </div>
+          </div>
+
+          <button id="single-btn" class="btn btn-primary btn-lg" style="margin-top:1.25rem;width:100%;">
+            <span id="s-loading" style="display:none;align-items:center;gap:0.6rem;"><span class="spinner"></span>Analyzing…</span>
+            <span id="s-text">🔍 Analyze Comment</span>
+          </button>
+        </div>
+
+        <!-- Result -->
+        <div>
+          <div id="single-result" class="result-panel" style="min-height:200px;">
+            <div style="text-align:center;padding:3rem 1rem;color:var(--outline);">
+              <div style="font-size:2.5rem;margin-bottom:0.75rem;">🔍</div>
+              <p>Run an analysis to see results here</p>
+            </div>
+          </div>
+          <div id="single-result-hidden" class="result-panel show" style="min-height:200px;">
+            <div style="text-align:center;padding:3rem 1rem;color:var(--outline);">
+              <div style="font-size:2.5rem;margin-bottom:0.75rem;">🔍</div>
+              <p>Run an analysis to see results here</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Batch Tab ──────────────────────────── -->
+    <div id="tab-batch" class="tab-pane">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;">
+          <div>
+            <h3>Batch Comment Analyzer</h3>
+            <p style="margin-top:0.35rem;font-size:0.875rem;">Enter one comment per line. Analyze up to 50 comments at once.</p>
+          </div>
+          <button id="load-example-batch" class="btn btn-secondary btn-sm">Load Examples</button>
+        </div>
+
+        <textarea id="batch-input" rows="10" placeholder="Enter comments here, one per line:&#10;you are amazing&#10;go kill yourself&#10;great tutorial thanks!&#10;you idiot"></textarea>
+
+        <div style="display:flex;gap:0.75rem;margin-top:1rem;align-items:center;flex-wrap:wrap;">
+          <button id="batch-btn" class="btn btn-primary btn-lg">
+            <span id="b-loading" style="display:none;align-items:center;gap:0.6rem;"><span class="spinner"></span>Analyzing…</span>
+            <span id="b-text">⚡ Analyze All Comments</span>
+          </button>
+          <button onclick="document.getElementById('batch-input').value='';document.getElementById('batch-results').innerHTML='';document.getElementById('batch-results-wrap').style.display='none'" class="btn btn-ghost btn-sm">Clear</button>
+          <span id="batch-meta" style="font-size:0.8rem;color:var(--outline);margin-left:auto;"></span>
+        </div>
+      </div>
+
+      <!-- Results table -->
+      <div id="batch-results-wrap" style="display:none;margin-top:1.5rem;">
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div style="padding:1.25rem 1.5rem;border-bottom:1px solid rgba(173,198,255,0.06);display:flex;justify-content:space-between;align-items:center;">
+            <h3 style="font-size:1rem;">Analysis Results</h3>
+            <div id="batch-summary" style="display:flex;gap:0.5rem;"></div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="results-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Comment</th>
+                  <th>Verdict</th>
+                  <th>Score</th>
+                  <th>Confidence</th>
+                </tr>
+              </thead>
+              <tbody id="batch-results"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">🛡️ Toxic Comment Shield</div>
+        <div class="footer-copy" style="margin-top:0.35rem;">© 2025 · Digital Guardian AI</div>
+      </div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="model.html">Model</a>
+        <a href="about.html">About</a>
+        <a href="https://github.com/AnandRawat11/Toxic-comments-detector" target="_blank">GitHub ↗</a>
+      </div>
+      <div class="footer-copy">Built by Anand Rawat</div>
+    </div>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+<script>
+/* small chip style */
+document.head.insertAdjacentHTML('beforeend', `<style>
+.example-chip-sm{
+  background:var(--surface-high);border:1px solid rgba(173,198,255,0.08);
+  border-radius:var(--radius-full);padding:0.35rem 0.85rem;
+  font-size:0.78rem;cursor:pointer;color:var(--on-surface-var);
+  transition:all 0.2s;white-space:nowrap;
+}
+.example-chip-sm:hover{border-color:rgba(173,198,255,0.25);color:var(--on-surface);}
+.demo-grid{grid-template-columns:1fr 1fr;}
+@media(max-width:768px){.demo-grid{grid-template-columns:1fr;}}
+</style>`);
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ── Tab switching ── */
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+    });
+  });
+
+  /* ── Single analyzer ── */
+  const sResult = document.getElementById('single-result-hidden');
+  sResult.style.display = 'none';
+
+  const runSingle = initSingleAnalyzer({
+    inputId:   'single-input',
+    btnId:     'single-btn',
+    resultId:  'single-result',
+    loadingId: 's-loading'
+  });
+
+  document.getElementById('single-btn').addEventListener('click', () => {
+    document.getElementById('s-text').style.display = 'none';
+    document.getElementById('s-loading').style.display = 'flex';
+    setTimeout(() => {
+      document.getElementById('s-text').style.display = '';
+      document.getElementById('s-loading').style.display = 'none';
+    }, 3000);
+  });
+
+  document.querySelectorAll('.example-chip-sm').forEach(c => {
+    c.addEventListener('click', () => {
+      document.getElementById('single-input').value = c.dataset.text;
+      runSingle(c.dataset.text);
+    });
+  });
+
+  /* ── Batch analyzer ── */
+  const EXAMPLE_BATCH = [
+    'you are amazing',
+    'go kill yourself',
+    'great tutorial thanks!',
+    'you absolute idiot',
+    'what a clown take',
+    'this content is awesome',
+    'shut up you moron',
+    'keep up the amazing work'
+  ].join('\n');
+
+  document.getElementById('load-example-batch').addEventListener('click', () => {
+    document.getElementById('batch-input').value = EXAMPLE_BATCH;
+  });
+
+  document.getElementById('batch-btn').addEventListener('click', async () => {
+    const raw  = document.getElementById('batch-input').value;
+    const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
+    if (!lines.length) { showToast('Please enter at least one comment.'); return; }
+    if (lines.length > 50) { showToast('Maximum 50 comments per batch.'); return; }
+
+    const btn  = document.getElementById('batch-btn');
+    const bTxt = document.getElementById('b-text');
+    const bLd  = document.getElementById('b-loading');
+    btn.disabled = true; bTxt.style.display = 'none'; bLd.style.display = 'flex';
+
+    const t0 = performance.now();
+    try {
+      const data = await analyzeComments(lines);
+      const ms   = (performance.now() - t0).toFixed(0);
+      const scores = data.scores;
+
+      let toxicCount = 0, mildCount = 0, safeCount = 0;
+      const tbody = document.getElementById('batch-results');
+      tbody.innerHTML = '';
+
+      scores.forEach((score, i) => {
+        const { label, cls } = classifyScore(score);
+        const pct = Math.round(score * 100);
+        if (cls === 'toxic') toxicCount++;
+        else if (cls === 'mild') mildCount++;
+        else safeCount++;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="color:var(--outline);font-size:0.8rem;">${i+1}</td>
+          <td style="max-width:340px;word-break:break-word;">"${lines[i].slice(0, 120)}"</td>
+          <td><span class="badge badge-${cls}">${label === 'Safe' ? '✅' : label === 'Mild' ? '⚠️' : '🚫'} ${label}</span></td>
+          <td>
+            <div style="display:flex;align-items:center;gap:0.75rem;min-width:160px;">
+              <div style="flex:1;height:5px;background:var(--surface-highest);border-radius:99px;overflow:hidden;">
+                <div style="height:100%;width:${pct}%;background:${cls==='safe'?'var(--tertiary)':cls==='mild'?'#ffb447':'var(--error)'};border-radius:99px;"></div>
+              </div>
+              <span style="font-size:0.8rem;font-weight:600;width:36px;text-align:right;">${pct}%</span>
+            </div>
+          </td>
+          <td><span style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--on-surface-var);">${score.toFixed(4)}</span></td>`;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('batch-summary').innerHTML = `
+        <span class="badge badge-safe">✅ ${safeCount}</span>
+        <span class="badge badge-mild">⚠️ ${mildCount}</span>
+        <span class="badge badge-toxic">🚫 ${toxicCount}</span>`;
+      document.getElementById('batch-meta').textContent = `${lines.length} comments · ${ms}ms`;
+      document.getElementById('batch-results-wrap').style.display = 'block';
+    } catch(e) {
+      showToast('⚠️ Cannot reach the API. Make sure the backend is running on port 8000.');
+      console.error(e);
+    } finally {
+      btn.disabled = false; bTxt.style.display = ''; bLd.style.display = 'none';
+    }
+  });
+});
+</script>
+</body>
+</html>

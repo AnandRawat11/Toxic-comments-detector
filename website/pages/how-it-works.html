@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How Toxic Comment Shield works — the pipeline from raw text to toxicity prediction using TF-IDF and Logistic Regression.">
+  <title>How It Works | Toxic Comment Shield</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-brand"><div class="brand-icon">🛡️</div>Toxic Shield</div>
+  <div class="nav-links">
+    <a href="../index.html">Home</a><a href="demo.html">Live Demo</a>
+    <a href="how-it-works.html" class="active">How It Works</a>
+    <a href="model.html">Model</a><a href="extension.html">Extension</a><a href="about.html">About</a>
+  </div>
+  <a href="demo.html" class="btn nav-cta">Try Demo →</a>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <div class="hero-badge"><div class="dot"></div>The Anatomy of Neutralization</div>
+    <h1>How It Works</h1>
+    <p>Toxic Shield operates with sub-millisecond precision, leveraging a fine-tuned ML pipeline to classify content before it ever reaches the user's display.</p>
+  </div>
+</div>
+
+<!-- ── System Pipeline ─────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;" class="two-col">
+      <div>
+        <div class="section-label">System Pipeline</div>
+        <h2 style="margin-bottom:2rem;">From Comment to Decision</h2>
+        <div class="pipeline">
+          <div class="pipeline-step">
+            <div class="step-node">1</div>
+            <div class="step-content">
+              <h4>User Comment</h4>
+              <p>A comment is submitted — from the website demo, API, or Chrome extension.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <div class="step-node">2</div>
+            <div class="step-content">
+              <h4>Pre-processing Layer</h4>
+              <p>Automated text normalization: lowercase, leet-speak decoding (0→o, 1→i, @→a), URL removal, username stripping, emoji filtering.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <div class="step-node">3</div>
+            <div class="step-content">
+              <h4>FastAPI Backend</h4>
+              <p>The comment is sent via POST to <code style="font-size:0.8rem;background:var(--surface-high);padding:0.1rem 0.4rem;border-radius:0.35rem;font-family:'JetBrains Mono',monospace;">/predict_batch</code>. Hard-rule pre-filter checks for extreme phrases first.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <div class="step-node">4</div>
+            <div class="step-content">
+              <h4>Feature Extraction</h4>
+              <p>Word TF-IDF (20k features) + Character TF-IDF (20k features) + Profanity features (2). Total: 40,002 dimensions.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <div class="step-node">5</div>
+            <div class="step-content">
+              <h4>ML Classification</h4>
+              <p>Logistic Regression with calibrated probabilities returns a continuous toxicity score from 0.0 to 1.0.</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <div class="step-node">6</div>
+            <div class="step-content">
+              <h4>Toxicity Decision</h4>
+              <p>Score ≥ threshold → Toxic (comment hidden/flagged). Score &lt; threshold → Safe (comment displayed normally).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Code block -->
+      <div>
+        <div class="section-label">API Response</div>
+        <h2 style="margin-bottom:1.5rem;">Prediction Payload</h2>
+        <div class="code-block">
+// POST /predict_batch<br>
+{<br>
+&nbsp;&nbsp;"texts": ["go kill yourself", "great video!"]<br>
+}<br><br>
+// Response<br>
+{<br>
+&nbsp;&nbsp;"scores": [1.0, 0.0025],<br>
+&nbsp;&nbsp;"threshold": 0.5<br>
+}<br><br>
+// score ≥ 0.5 → TOXIC → BLOCK<br>
+// score &lt; 0.5 → SAFE  → ALLOW
+        </div>
+
+        <div style="margin-top:2rem;">
+          <div class="section-label">Feature Matrix</div>
+          <h3 style="margin-bottom:1rem;">40,002 Dimensions</h3>
+          <div style="display:flex;flex-direction:column;gap:0.75rem;">
+            <div style="background:var(--surface-cont);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">Word TF-IDF</div>
+                <div style="font-size:0.8rem;color:var(--on-surface-var);">1–2 grams, stop_words="english"</div>
+              </div>
+              <span class="badge badge-info">20,000</span>
+            </div>
+            <div style="background:var(--surface-cont);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">Char n-gram TF-IDF</div>
+                <div style="font-size:0.8rem;color:var(--on-surface-var);">char_wb, 3–5 grams, catches leet-speak</div>
+              </div>
+              <span class="badge badge-info">20,000</span>
+            </div>
+            <div style="background:var(--surface-cont);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">Profanity Features</div>
+                <div style="font-size:0.8rem;color:var(--on-surface-var);">Toxic word count + binary flag</div>
+              </div>
+              <span class="badge badge-info">2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── ML Cards ───────────────────────────────── -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="section-label" style="text-align:center;margin-bottom:0.5rem;">Core Components</div>
+    <h2 style="text-align:center;margin-bottom:2.5rem;">Built for Real-time Digital Moderation</h2>
+    <div class="feature-grid">
+      <div class="card">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">📊</div>
+        <h3>Dataset Training</h3>
+        <p>Architected on 180,000+ hand-labeled samples from Jigsaw & HateXplain. 420 synthetic soft-insult examples oversampled 10× for indirect toxicity detection.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">🔬</div>
+        <h3>Feature Extraction</h3>
+        <p>TF-IDF vectorization transforms raw characters into a 40,002-dimensional mathematical space, catching disguised insults that keyword filters miss entirely.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">🤖</div>
+        <h3>ML Classification</h3>
+        <p>Logistic Regression with calibrated probabilities. Sub-1ms inference latency, making moderation invisible to the end-user while providing maximum security.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">⚡</div>
+        <h3>Hard Rule Pre-filter</h3>
+        <p>O(k) exact match against a lexicon of extreme phrases fires before the model, guaranteeing zero-latency blocking of the most severe content.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">🔤</div>
+        <h3>Leet-speak Normalization</h3>
+        <p>Character substitution map (0→o, 1→i, @→a, $→s, !→i) deobfuscates toxic text before vectorization, defeating evasion attempts.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">🌐</div>
+        <h3>Edge Deployment</h3>
+        <p>Lightweight enough to run in local browser extensions or low-power serverless functions without performance degradation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div><div class="footer-brand">🛡️ Toxic Comment Shield</div><div class="footer-copy" style="margin-top:0.35rem;">© 2025 · Digital Guardian AI</div></div>
+      <div class="footer-links"><a href="../index.html">Home</a><a href="demo.html">Live Demo</a><a href="model.html">Model</a><a href="https://github.com/AnandRawat11/Toxic-comments-detector" target="_blank">GitHub ↗</a></div>
+      <div class="footer-copy">Built by Anand Rawat</div>
+    </div>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+<style>
+.two-col{grid-template-columns:1fr 1fr;}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;}}
+</style>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="About Toxic Comment Shield — the problem of online toxicity, why AI moderation matters, and the project's development history.">
+  <title>About | Toxic Comment Shield</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-brand"><div class="brand-icon">🛡️</div>Toxic Shield</div>
+  <div class="nav-links">
+    <a href="../index.html">Home</a><a href="demo.html">Live Demo</a>
+    <a href="how-it-works.html">How It Works</a><a href="model.html">Model</a>
+    <a href="extension.html">Extension</a><a href="about.html" class="active">About</a>
+  </div>
+  <a href="demo.html" class="btn nav-cta">Try Demo →</a>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <div class="hero-badge"><div class="dot"></div>Open Source · Educational · Privacy First</div>
+    <h1>About the Project</h1>
+    <p>Why we built Toxic Comment Shield, what problems it solves, and the full story of its development across 10 phases.</p>
+  </div>
+</div>
+
+<!-- ── Problem Statement ───────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;" class="two-col">
+      <div>
+        <div class="section-label">The Problem</div>
+        <h2 style="margin-bottom:1.25rem;">Online Toxicity is a Growing Crisis</h2>
+        <p style="margin-bottom:1rem;">Online comment sections on platforms like YouTube, Reddit, and Instagram are frequently polluted with toxic language — insults, hate speech, and harassment — that degrades the experience for users. Existing platform-level moderation is reactive, inconsistent, and often too slow.</p>
+        <p style="margin-bottom:1rem;">Research shows that exposure to toxic comments reduces user engagement, drives away marginalized communities, and contributes to a measurable decline in mental health for those targeted.</p>
+        <p>Platform-level moderation systems are opaque, centralized, and can take hours or days to act — far too slow for real-time conversations.</p>
+      </div>
+      <div>
+        <div class="section-label">The Solution</div>
+        <h2 style="margin-bottom:1.25rem;">User-controlled AI Moderation</h2>
+        <p style="margin-bottom:1.25rem;"><strong style="color:var(--on-surface);">Toxic Comment Shield</strong> gives users control by running toxicity detection locally in their browser. Comments are sent in batches to a lightweight FastAPI backend, scored by a trained ML model, and hidden automatically — with a click-to-reveal option.</p>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <div class="card" style="padding:1rem 1.25rem;flex-direction:row;display:flex;gap:1rem;align-items:flex-start;">
+            <div style="font-size:1.5rem;">⚡</div>
+            <div><h4>Speed</h4><p style="font-size:0.875rem;">Under 1ms per comment using classical ML — no transformers needed.</p></div>
+          </div>
+          <div class="card" style="padding:1rem 1.25rem;flex-direction:row;display:flex;gap:1rem;align-items:flex-start;">
+            <div style="font-size:1.5rem;">🎯</div>
+            <div><h4>Accuracy</h4><p style="font-size:0.875rem;">Trained on 180,000+ real-world and synthetic samples from multiple datasets.</p></div>
+          </div>
+          <div class="card" style="padding:1rem 1.25rem;flex-direction:row;display:flex;gap:1rem;align-items:flex-start;">
+            <div style="font-size:1.5rem;">🔒</div>
+            <div><h4>Privacy</h4><p style="font-size:0.875rem;">No data is stored — comments are scored and discarded immediately. Everything runs locally.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── Development Phases ─────────────────────── -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="section-label" style="text-align:center;margin-bottom:0.5rem;">Development History</div>
+    <h2 style="text-align:center;margin-bottom:2.5rem;">Built Across 10 Phases</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-num">Phase 1</div>
+        <h4>Rule-Based Filtering</h4>
+        <p style="font-size:0.85rem;margin-top:0.35rem;">Keyword-based toxic word list. Extension skeleton: manifest, content.js, popup.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num">Phase 2</div>
+        <h4>ML Backend Integration</h4>
+        <p style="font-size:0.85rem;margin-top:0.35rem;">First FastAPI backend with TF-IDF + Logistic Regression. Real ML scores replace keyword matching.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num">Phase 3</div>
+        <h4>Real-time Detection</h4>
+        <p style="font-size:0.85rem;margin-top:0.35rem;">Replaced polling with MutationObserver. Zero-delay detection of dynamically loaded comments.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num">Phase 4</div>
+        <h4>Extension UI</h4>
+        <p style="font-size:0.85rem;margin-top:0.35rem;">Dark popup with toggle + sensitivity slider. State persisted via chrome.storage.sync.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num">Phase 5</div>
+        <h4>Probability Scores</h4>
+        <p style="font-size:0.85rem;margin-top:0.35rem;">Moved from predict() to predict_proba(). Tunable threshold — users choose their tolerance.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num">Phase 6</div>
+        <h4>Multi-Platform Support</h4>
+        <p style="font-size:0.85rem;margin-top:0.35rem;">Site adapter system for YouTube, Reddit, Instagram. One codebase, three platforms.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num">Phase 7</div>
+        <h4>Performance Optimization</h4>
+        <p style="font-size:0.85rem;margin-top:0.35rem;">Client-side cache + batch queue. 200 comments → 4 API calls instead of 200.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num">Phase 8</div>
+        <h4>Advanced Feature Engineering</h4>
+        <p style="font-size:0.85rem;margin-top:0.35rem;">Combined Word + Char TF-IDF + Profanity. 40,002-dimensional feature space.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num">Phase 9</div>
+        <h4>Dataset Expansion</h4>
+        <p style="font-size:0.85rem;margin-top:0.35rem;">Merged Jigsaw + HateXplain + 4,200 synthetic soft insults. 180,000+ samples total.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num">Phase 10</div>
+        <h4>Leet-speak Normalization</h4>
+        <p style="font-size:0.85rem;margin-top:0.35rem;">LEET_MAP character substitution (0→o, 1→i, @→a). Detection improved from 6/10 to 8/10.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── Tech Stack ─────────────────────────────── -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;" class="two-col">
+      <div>
+        <div class="section-label">Technology Stack</div>
+        <h2 style="margin-bottom:1.5rem;">Built With</h2>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <div style="background:var(--surface-cont);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+            <div style="font-size:0.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--on-surface-var);margin-bottom:0.5rem;">Backend</div>
+            <div class="tech-chips"><span class="tech-chip">Python 3.9+</span><span class="tech-chip">FastAPI</span><span class="tech-chip">Uvicorn</span><span class="tech-chip">Pydantic</span></div>
+          </div>
+          <div style="background:var(--surface-cont);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+            <div style="font-size:0.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--on-surface-var);margin-bottom:0.5rem;">Machine Learning</div>
+            <div class="tech-chips"><span class="tech-chip">Scikit-learn</span><span class="tech-chip">TF-IDF</span><span class="tech-chip">LogisticRegression</span><span class="tech-chip">CalibratedLinearSVC</span><span class="tech-chip">SciPy</span><span class="tech-chip">Pandas</span></div>
+          </div>
+          <div style="background:var(--surface-cont);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+            <div style="font-size:0.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--on-surface-var);margin-bottom:0.5rem;">Extension</div>
+            <div class="tech-chips"><span class="tech-chip">Chrome MV3</span><span class="tech-chip">MutationObserver</span><span class="tech-chip">chrome.storage</span><span class="tech-chip">Fetch API</span></div>
+          </div>
+          <div style="background:var(--surface-cont);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+            <div style="font-size:0.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--on-surface-var);margin-bottom:0.5rem;">Website</div>
+            <div class="tech-chips"><span class="tech-chip">HTML5</span><span class="tech-chip">Vanilla CSS</span><span class="tech-chip">Vanilla JS</span><span class="tech-chip">Google Fonts</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label">Project Links</div>
+        <h2 style="margin-bottom:1.5rem;">Repository & Resources</h2>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <a href="https://github.com/AnandRawat11/Toxic-comments-detector" target="_blank" class="card" style="display:flex;align-items:center;gap:1rem;padding:1.25rem;text-decoration:none;">
+            <div style="font-size:1.75rem;">📁</div>
+            <div>
+              <h4>GitHub Repository</h4>
+              <p style="font-size:0.875rem;margin-top:0.2rem;">AnandRawat11/Toxic-comments-detector</p>
+            </div>
+            <div style="margin-left:auto;color:var(--outline);">↗</div>
+          </a>
+          <a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge" target="_blank" class="card" style="display:flex;align-items:center;gap:1rem;padding:1.25rem;text-decoration:none;">
+            <div style="font-size:1.75rem;">📊</div>
+            <div>
+              <h4>Jigsaw Dataset</h4>
+              <p style="font-size:0.875rem;margin-top:0.2rem;">Kaggle toxic comment challenge</p>
+            </div>
+            <div style="margin-left:auto;color:var(--outline);">↗</div>
+          </a>
+          <a href="https://github.com/hate-speech-and-offensive-language/HateXplain" target="_blank" class="card" style="display:flex;align-items:center;gap:1rem;padding:1.25rem;text-decoration:none;">
+            <div style="font-size:1.75rem;">🔬</div>
+            <div>
+              <h4>HateXplain Dataset</h4>
+              <p style="font-size:0.875rem;margin-top:0.2rem;">Benchmark dataset for hate speech</p>
+            </div>
+            <div style="margin-left:auto;color:var(--outline);">↗</div>
+          </a>
+        </div>
+
+        <div style="margin-top:2rem;">
+          <div class="section-label">Author</div>
+          <div class="card" style="display:flex;align-items:center;gap:1.25rem;padding:1.5rem;">
+            <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--primary-dim),var(--primary));display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">A</div>
+            <div>
+              <h4>Anand Rawat</h4>
+              <p style="font-size:0.875rem;margin-top:0.2rem;">Full-stack developer & ML enthusiast. Built Toxic Comment Shield as an educational open-source project.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2 style="margin-bottom:1rem;">Try It Yourself</h2>
+    <p style="margin-bottom:2rem;">Run the backend, load the extension, and see AI moderation in action on any platform.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="demo.html" class="btn btn-primary btn-lg">Try Live Demo →</a>
+      <a href="https://github.com/AnandRawat11/Toxic-comments-detector" target="_blank" class="btn btn-secondary btn-lg">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div><div class="footer-brand">🛡️ Toxic Comment Shield</div><div class="footer-copy" style="margin-top:0.35rem;">© 2025 · Digital Guardian AI</div></div>
+      <div class="footer-links"><a href="../index.html">Home</a><a href="demo.html">Live Demo</a><a href="model.html">Model</a><a href="https://github.com/AnandRawat11/Toxic-comments-detector" target="_blank">GitHub ↗</a></div>
+      <div class="footer-copy">Built by Anand Rawat</div>
+    </div>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+<style>
+.two-col{grid-template-columns:1fr 1fr;}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;}}
+</style>
+</body>
+</html>
