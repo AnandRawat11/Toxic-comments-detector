@@ -92,7 +92,7 @@ function hideToxicComment(commentEl, score) {
     }, { once: true });
 
     const parent = commentEl.closest(config.commentContainer) || commentEl.parentElement;
-    if (parent && !parent.querySelector(".toxic-shield-warning")) {
+    if (parent && !parent.querySelector(".toxic-shield-warning") && parent.contains(commentEl)) {
         const warning = document.createElement("div");
         warning.className = "toxic-shield-warning";
         warning.style.cssText = `
